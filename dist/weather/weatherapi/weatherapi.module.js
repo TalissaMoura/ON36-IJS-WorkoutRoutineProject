@@ -6,20 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.WeatherApiModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const weather_module_1 = require("./weather/weather.module");
-const exercise_routine_module_1 = require("./exercise-routine/exercise-routine.module");
-let AppModule = class AppModule {
+const axios_1 = require("@nestjs/axios");
+const weatherapi_service_1 = require("./weatherapi.service");
+let WeatherApiModule = class WeatherApiModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.WeatherApiModule = WeatherApiModule;
+exports.WeatherApiModule = WeatherApiModule = __decorate([
     (0, common_1.Module)({
-        imports: [weather_module_1.WeatherModule, exercise_routine_module_1.ExerciseRoutineModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        imports: [axios_1.HttpModule],
+        providers: [weatherapi_service_1.WeatherApiService],
+        exports: [weatherapi_service_1.WeatherApiService],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], WeatherApiModule);
+//# sourceMappingURL=weatherapi.module.js.map

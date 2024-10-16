@@ -1,3 +1,12 @@
+secrets:
+  rds_username:
+    file: .secrets/rds_username.txt
+  rds_password:
+    file: .secrets/rds_password.txt
+  rds_database:
+    file: .secrets/rds_database.txt
+  rds_host:
+    file: .secrets/rds_host.txt
 services:
   nestjs-app-dev:
     build: 
@@ -7,6 +16,16 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
+      # RDS environment variables
+      RDS_HOST: /run/secrets/rds_host
+      RDS_USERNAME: /run/secrets/rds_username
+      RDS_PASSWORD: /run/secrets/rds_password
+      RDS_DATABASE: /run/secrets/rds_database
+    secrets:
+      - rds_password
+      - rds_username
+      - rds_database
+      - rds_host
   nestjs-app-prod:
     build: 
       context: .
@@ -15,3 +34,13 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
+      # RDS environment variables
+      RDS_HOST: /run/secrets/rds_host
+      RDS_USERNAME: /run/secrets/rds_username
+      RDS_PASSWORD: /run/secrets/rds_password
+      RDS_DATABASE: /run/secrets/rds_database
+    secrets:
+      - rds_password
+      - rds_username
+      - rds_database
+      - rds_host

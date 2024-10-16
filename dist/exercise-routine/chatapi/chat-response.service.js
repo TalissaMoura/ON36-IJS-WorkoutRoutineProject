@@ -16,14 +16,14 @@ const fs = require("fs");
 const prompts_1 = require("@langchain/core/prompts");
 const weather_service_1 = require("../../weather/weather.service");
 const output_parsers_1 = require("@langchain/core/output_parsers");
-const openai_1 = require("@langchain/openai");
+const google_genai_1 = require("@langchain/google-genai");
 let ChatResponseService = class ChatResponseService {
     loadApiKey() {
         try {
             const filePath = path.join(".secrets", "secrets.json");
             const fileContents = fs.readFileSync(filePath, 'utf-8');
             const data = JSON.parse(fileContents);
-            return data.OPEN_AI_KEY;
+            return data.GOOGLE_GEMINI_KEY;
         }
         catch (error) {
             console.error('Error fetching chat response data:', error.response?.data || error.message);
@@ -33,8 +33,8 @@ let ChatResponseService = class ChatResponseService {
     constructor(weatherService) {
         this.weatherService = weatherService;
         this.apiKey = this.loadApiKey();
-        this.llm = new openai_1.ChatOpenAI({
-            model: "gpt-4o-mini",
+        this.llm = new google_genai_1.ChatGoogleGenerativeAI({
+            model: "gemini-1.5-flash",
             temperature: 0,
             apiKey: this.apiKey
         });

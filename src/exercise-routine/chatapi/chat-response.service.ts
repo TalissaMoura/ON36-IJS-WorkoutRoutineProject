@@ -5,6 +5,7 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { WeatherService } from 'src/weather/weather.service';
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { ChatOpenAI } from '@langchain/openai';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class ChatResponseService {
       const filePath = path.join(".secrets","secrets.json")
       const fileContents = fs.readFileSync(filePath,'utf-8');
       const data = JSON.parse(fileContents)
-      return data.OPEN_AI_KEY
+      return data.GOOGLE_GEMINI_KEY
     } catch (error) {
       console.error('Error fetching chat response data:', error.response?.data || error.message);
       throw new Error('Could not load API key');
@@ -30,8 +31,8 @@ export class ChatResponseService {
 
   constructor(private readonly weatherService: WeatherService) {
     this.apiKey = this.loadApiKey();
-    this.llm = new ChatOpenAI({
-      model: "gpt-4o-mini",
+    this.llm = new ChatGoogleGenerativeAI({
+      model: "gemini-1.5-flash",
       temperature: 0,
       apiKey: this.apiKey
     });

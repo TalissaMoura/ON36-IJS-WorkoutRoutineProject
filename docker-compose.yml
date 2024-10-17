@@ -7,6 +7,11 @@ secrets:
     file: ./.secrets/pg_database.txt
   pg_host:
     file: ./.secrets/pg_host.txt
+  gemini_api_key:
+    file: ./.secrets/gemini_api_key.txt
+  weather_api_key:
+    file: ./.secrets/weather_api_key.txt
+
 services:
   postgres:
     image: postgres:latest
@@ -42,6 +47,8 @@ services:
       - pg_password
       - pg_username
       - pg_database
+      - gemini_api_key
+      - weather_api_key
     depends_on:
       - postgres
 
@@ -63,6 +70,8 @@ services:
       - pg_password
       - pg_username
       - pg_database
+      - gemini_api_key
+      - weather_api_key
     depends_on:
       - postgres
 

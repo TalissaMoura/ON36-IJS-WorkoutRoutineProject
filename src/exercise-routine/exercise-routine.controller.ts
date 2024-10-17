@@ -6,6 +6,14 @@ import { ExerciseRoutineService } from './exercise-routine.service';
 export class ExerciseRoutineController {
   constructor(private readonly exerciseRoutineService: ExerciseRoutineService) {}
 
+  @Get('health')
+  healthCheck() {
+    return {
+      status: 'healthy', 
+      timestamp: new Date().toISOString(),  // Optional: add a timestamp for better monitoring
+    };
+  }
+  
   @Post()
   create(
     @Body("gender") gender: string,
@@ -28,14 +36,6 @@ export class ExerciseRoutineController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.exerciseRoutineService.findOne(id);
-  }
-
-  @Get('health')
-  healthCheck() {
-    return {
-      status: 'healthy', 
-      timestamp: new Date().toISOString(),  // Optional: add a timestamp for better monitoring
-    };
   }
 
 }

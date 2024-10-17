@@ -13,21 +13,22 @@ exports.WeatherApiService = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
 const rxjs_1 = require("rxjs");
-const fs = require("fs");
 const weather_model_1 = require("../domain/weather.model");
+const config_1 = require("@nestjs/config");
+const fs = require("fs");
 const path = require("path");
 let WeatherApiService = class WeatherApiService {
-    constructor(httpService) {
+    constructor(httpService, configService) {
         this.httpService = httpService;
+        this.configService = configService;
         this.baseUrl = 'https://api.weatherapi.com/v1/current.json';
         this.apiKey = this.loadApiKey();
     }
     loadApiKey() {
         try {
-            const filePath = path.join(".secrets", "secrets.json");
-            const fileContents = fs.readFileSync(filePath, 'utf-8');
-            const data = JSON.parse(fileContents);
-            return data.WEATHER_API_KEY;
+            const apiPath = path.join("..", "..", "..", "..", "/run/secrets/weather_api_key");
+            const apiKey = fs.readFileSync(apiPath, "utf-8");
+            return apiKey;
         }
         catch (error) {
             throw new Error('Could not load API key');
@@ -60,7 +61,7 @@ let WeatherApiService = class WeatherApiService {
                 },
             }));
             if (!response.data || !response.data.current) {
-                throw new common_1.NotFoundException('City not found or invalid API key');
+                throw new common_1.NotFoundException(`City not found or invalid API key, error: ${response.data}`);
             }
             const { current } = response.data;
             const currentDate = new Date().toString();
@@ -74,6 +75,6 @@ let WeatherApiService = class WeatherApiService {
 exports.WeatherApiService = WeatherApiService;
 exports.WeatherApiService = WeatherApiService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [axios_1.HttpService])
+    __metadata("design:paramtypes", [axios_1.HttpService, config_1.ConfigService])
 ], WeatherApiService);
 //# sourceMappingURL=weatherapi.service.js.map

@@ -10,14 +10,15 @@ exports.WeatherApiModule = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
 const weatherapi_service_1 = require("./weatherapi.service");
+const config_1 = require("@nestjs/config");
 let WeatherApiModule = class WeatherApiModule {
 };
 exports.WeatherApiModule = WeatherApiModule;
 exports.WeatherApiModule = WeatherApiModule = __decorate([
     (0, common_1.Module)({
-        imports: [axios_1.HttpModule],
-        providers: [weatherapi_service_1.WeatherApiService],
-        exports: [weatherapi_service_1.WeatherApiService],
+        imports: [axios_1.HttpModule, config_1.ConfigModule.forRoot({ isGlobal: true })],
+        providers: [weatherapi_service_1.WeatherApiService, config_1.ConfigService],
+        exports: [weatherapi_service_1.WeatherApiService, config_1.ConfigService],
     })
 ], WeatherApiModule);
 //# sourceMappingURL=weatherapi.module.js.map

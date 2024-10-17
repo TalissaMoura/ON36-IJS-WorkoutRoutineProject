@@ -11,27 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatResponseService = void 0;
 const common_1 = require("@nestjs/common");
-const path = require("path");
-const fs = require("fs");
 const prompts_1 = require("@langchain/core/prompts");
 const weather_service_1 = require("../../weather/weather.service");
 const output_parsers_1 = require("@langchain/core/output_parsers");
 const google_genai_1 = require("@langchain/google-genai");
+const config_1 = require("@nestjs/config");
+const fs = require("fs");
+const path = require("path");
 let ChatResponseService = class ChatResponseService {
-    loadApiKey() {
-        try {
-            const filePath = path.join(".secrets", "secrets.json");
-            const fileContents = fs.readFileSync(filePath, 'utf-8');
-            const data = JSON.parse(fileContents);
-            return data.GOOGLE_GEMINI_KEY;
-        }
-        catch (error) {
-            console.error('Error fetching chat response data:', error.response?.data || error.message);
-            throw new Error('Could not load API key');
-        }
-    }
-    constructor(weatherService) {
+    constructor(weatherService, configService) {
         this.weatherService = weatherService;
+        this.configService = configService;
         this.apiKey = this.loadApiKey();
         this.llm = new google_genai_1.ChatGoogleGenerativeAI({
             model: "gemini-1.5-flash",
@@ -63,6 +53,17 @@ let ChatResponseService = class ChatResponseService {
         Based on this information, suggest an appropriate exercise routine that takes into account the user's profile and the weather.`]
         ]);
     }
+    loadApiKey() {
+        try {
+            const apiPath = path.join("..", "..", "..", "/run/secrets/gemini_api_key");
+            const apiKey = fs.readFileSync(apiPath, "utf-8");
+            return apiKey;
+        }
+        catch (error) {
+            console.error('Error fetching chat response data:', error.response?.data || error.message);
+            throw new Error('Could not load API key');
+        }
+    }
     async getRoutine(gender, beginner, on_period, height, weight, age, goal, city) {
         const currentWeather = await this.weatherService.create(city);
         const chain = this.promptTemplate.pipe(this.llm).pipe(this.parser);
@@ -87,6 +88,6 @@ let ChatResponseService = class ChatResponseService {
 exports.ChatResponseService = ChatResponseService;
 exports.ChatResponseService = ChatResponseService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [weather_service_1.WeatherService])
+    __metadata("design:paramtypes", [weather_service_1.WeatherService, config_1.ConfigService])
 ], ChatResponseService);
 //# sourceMappingURL=chat-response.service.js.map

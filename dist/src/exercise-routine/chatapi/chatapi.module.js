@@ -10,14 +10,15 @@ exports.ChatApiModule = void 0;
 const common_1 = require("@nestjs/common");
 const chat_response_service_1 = require("./chat-response.service");
 const weather_module_1 = require("../../weather/weather.module");
+const config_1 = require("@nestjs/config");
 let ChatApiModule = class ChatApiModule {
 };
 exports.ChatApiModule = ChatApiModule;
 exports.ChatApiModule = ChatApiModule = __decorate([
     (0, common_1.Module)({
-        imports: [weather_module_1.WeatherModule],
-        providers: [chat_response_service_1.ChatResponseService],
-        exports: [chat_response_service_1.ChatResponseService]
+        imports: [weather_module_1.WeatherModule, config_1.ConfigModule.forRoot({ isGlobal: true })],
+        providers: [chat_response_service_1.ChatResponseService, config_1.ConfigService],
+        exports: [chat_response_service_1.ChatResponseService, config_1.ConfigService]
     })
 ], ChatApiModule);
 //# sourceMappingURL=chatapi.module.js.map

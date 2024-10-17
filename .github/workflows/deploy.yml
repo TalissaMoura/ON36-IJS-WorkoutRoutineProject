@@ -46,6 +46,14 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: talissamoura/workout-routine-project:latest
+          port-mappings: |
+            [
+              {
+                "containerPort": 3000,  
+                "hostPort": 0,           
+                "protocol": "http"        
+              }
+            ]
   
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1

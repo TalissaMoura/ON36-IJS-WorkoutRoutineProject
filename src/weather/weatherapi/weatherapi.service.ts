@@ -1,25 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs'; // To convert Observable to Promise
-import * as fs from 'fs';
 import { Weather } from '../domain/weather.model';
-import * as path from 'path';
+import { ConfigService } from '@nestjs/config';
+import * as fs from "fs"
+import * as path from "path"
 
 @Injectable()
 export class WeatherApiService {
-  private readonly apiKey: string;
+  private readonly apiKey: string ;
   private readonly baseUrl: string = 'https://api.weatherapi.com/v1/current.json';
 
-  constructor(private readonly httpService: HttpService) {
+  constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {
     this.apiKey = this.loadApiKey();
   }
 
-  private loadApiKey(): string {
+  private loadApiKey(): string  {
     try {
-      const filePath = path.join(".secrets","secrets.json")
-      const fileContents = fs.readFileSync(filePath,'utf-8');
-      const data = JSON.parse(fileContents)
-      return data.WEATHER_API_KEY
+      const apiPath = path.join("..","..","..","..","/run/secrets/weather_api_key")
+      const apiKey = fs.readFileSync(apiPath,"utf-8")
+      return apiKey
     } catch (error) {
       throw new Error('Could not load API key');
     }
@@ -52,7 +52,7 @@ export class WeatherApiService {
 
           // Check if response.data is defined and has the expected structure
       if (!response.data || !response.data.current) {
-        throw new NotFoundException('City not found or invalid API key');
+        throw new NotFoundException(`City not found or invalid API key, error: ${response.data}`);
       }
 
       const { current } = response.data;

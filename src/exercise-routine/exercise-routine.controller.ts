@@ -30,4 +30,12 @@ export class ExerciseRoutineController {
     return this.exerciseRoutineService.findOne(id);
   }
 
+  @Get('health')
+  healthCheck() {
+    return {
+      status: 'healthy', 
+      timestamp: new Date().toISOString(),  // Optional: add a timestamp for better monitoring
+    };
+  }
+
 }

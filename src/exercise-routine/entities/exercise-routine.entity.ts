@@ -1,5 +1,18 @@
+import { Column, Entity, PrimaryColumn } from "typeorm"
+
+@Entity()
 export class ExerciseRoutineEntity {
-  exerciseID: string 
+
+  @PrimaryColumn({ type: "uuid" })
+  exerciseId: string 
+
+  @Column()
   message: string 
-  date: string 
+
+  @Column({type: "date"})
+  date: Date 
+
+  constructor( exerciseRoutine: Partial<ExerciseRoutineEntity>){
+    Object.assign(this, exerciseRoutine)
+  }
 }

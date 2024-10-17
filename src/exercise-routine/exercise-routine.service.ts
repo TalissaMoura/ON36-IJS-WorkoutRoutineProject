@@ -1,12 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ExerciseRoutineRepository } from './exercise-routine.repository';
 import { ExerciseRoutine } from './domain/exercise-routine.model';
 import { ChatResponseService } from './chatapi/chat-response.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ExerciseRoutineEntity } from './entities/exercise-routine.entity';
+import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
 export class ExerciseRoutineService {
 
-  constructor(private readonly ExerciseRoutineRepository: ExerciseRoutineRepository, private readonly ChatResponseService: ChatResponseService){}
+  constructor(
+    @InjectRepository(ExerciseRoutineEntity)
+    private readonly ExerciseRoutineRepository: Repository<ExerciseRoutineEntity>, 
+    private readonly entityManager: EntityManager,
+    private readonly ChatResponseService: ChatResponseService){}
 
   async create(
     gender:string, 
@@ -16,7 +22,7 @@ export class ExerciseRoutineService {
     weight:string, 
     goal:string,
     age:string, 
-    city:string): Promise<ExerciseRoutine> {
+    city:string){
     try {
       const chatResponse = await this.ChatResponseService.getRoutine(
         gender,
@@ -28,10 +34,11 @@ export class ExerciseRoutineService {
         goal,
         city
       )
-      const currentDate = new Date().toString()
+      const currentDate = new Date()
       const exerciseRoutineResponse = new ExerciseRoutine(chatResponse,currentDate)
-      const exerciseRoutine = await this.ExerciseRoutineRepository.save(exerciseRoutineResponse)
-      return exerciseRoutine
+      const newEntity = new ExerciseRoutineEntity(exerciseRoutineResponse)
+      await this.entityManager.save(newEntity)
+    
     }
     catch (error) {
       console.error('Error fetching chat response data:', error.response?.data || error.message);
@@ -40,12 +47,11 @@ export class ExerciseRoutineService {
   }
 
   async findAll() {
-    return await this.ExerciseRoutineRepository.findAll()
+    return await this.ExerciseRoutineRepository.find()
   }
 
-  async findOne(id: string) {
-    const exerciseRoutine = await this.ExerciseRoutineRepository.searchById(id)
-    return exerciseRoutine
+  async findOne(exerciseId: string) {
+    return await this.ExerciseRoutineRepository.findOneBy( { exerciseId } )
   }
   
 }

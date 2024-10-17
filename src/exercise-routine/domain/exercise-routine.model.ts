@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto"
 
 export class ExerciseRoutine {
-  id: string
+  exerciseId: string
   message: string
-  date:string 
+  date: Date
 
-  constructor(message:string,date:string){
-    this.id = randomUUID()
+  constructor(message:string,date:Date){
+    this.exerciseId = randomUUID()
     this.message = message
     this.date = date
   }

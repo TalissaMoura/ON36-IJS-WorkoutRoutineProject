@@ -1,46 +1,70 @@
 secrets:
-  rds_username:
-    file: .secrets/rds_username.txt
-  rds_password:
-    file: .secrets/rds_password.txt
-  rds_database:
-    file: .secrets/rds_database.txt
-  rds_host:
-    file: .secrets/rds_host.txt
+  pg_password:
+    file: ./.secrets/pg_password.txt
+  pg_username:
+    file: ./.secrets/pg_username.txt
+  pg_database:
+    file: ./.secrets/pg_database.txt
+  pg_host:
+    file: ./.secrets/pg_host.txt
 services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: /run/secrets/pg_username
+      POSTGRES_PASSWORD: /run/secrets/pg_password
+      POSTGRES_DB: /run/secrets/pg_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    secrets:
+      - pg_password
+      - pg_username
+      - pg_database
+    restart: always
+
   nestjs-app-dev:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: development
-      # RDS environment variables
-      RDS_HOST: /run/secrets/rds_host
-      RDS_USERNAME: /run/secrets/rds_username
-      RDS_PASSWORD: /run/secrets/rds_password
-      RDS_DATABASE: /run/secrets/rds_database
+      NODE_ENV: production
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: /run/secrets/pg_username
+      DATABASE_PASSWORD: /run/secrets/pg_password
+      DATABASE_NAME: /run/secrets/pg_database
+      TYPEORM_SYNCHRONIZE: false
     secrets:
-      - rds_password
-      - rds_username
-      - rds_database
-      - rds_host
+      - pg_password
+      - pg_username
+      - pg_database
+    depends_on:
+      - postgres
+
   nestjs-app-prod:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.prod
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      # RDS environment variables
-      RDS_HOST: /run/secrets/rds_host
-      RDS_USERNAME: /run/secrets/rds_username
-      RDS_PASSWORD: /run/secrets/rds_password
-      RDS_DATABASE: /run/secrets/rds_database
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: /run/secrets/pg_username
+      DATABASE_PASSWORD: /run/secrets/pg_password
+      DATABASE_NAME: /run/secrets/pg_database
+      TYPEORM_SYNCHRONIZE: false
     secrets:
-      - rds_password
-      - rds_username
-      - rds_database
-      - rds_host
+      - pg_password
+      - pg_username
+      - pg_database
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

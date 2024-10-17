@@ -1,4 +1,4 @@
-name: Deploy workflow
+name: Deploy container in docker hub workflow
 
 on:
   push:

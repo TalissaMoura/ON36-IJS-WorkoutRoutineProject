@@ -20,6 +20,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
-        context: ./Dockerfile.prod
+        context: .
+        file: ./Dockerfile.prod
         push: true
         tags: talissamoura/workout-routine-project:latest

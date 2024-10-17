@@ -19,6 +19,12 @@ let ExerciseRoutineController = class ExerciseRoutineController {
     constructor(exerciseRoutineService) {
         this.exerciseRoutineService = exerciseRoutineService;
     }
+    healthCheck() {
+        return {
+            status: 'healthy',
+            timestamp: new Date().toISOString(),
+        };
+    }
     create(gender, begineer, on_period, height, weight, goal, city, age) {
         const exerciseRoutine = this.exerciseRoutineService.create(gender, begineer, on_period, height, weight, goal, age, city);
         return exerciseRoutine;
@@ -31,6 +37,12 @@ let ExerciseRoutineController = class ExerciseRoutineController {
     }
 };
 exports.ExerciseRoutineController = ExerciseRoutineController;
+__decorate([
+    (0, common_1.Get)('health'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ExerciseRoutineController.prototype, "healthCheck", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)("gender")),

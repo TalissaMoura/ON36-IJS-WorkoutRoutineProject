@@ -18,7 +18,7 @@ let ExerciseRoutineEntity = class ExerciseRoutineEntity {
 };
 exports.ExerciseRoutineEntity = ExerciseRoutineEntity;
 __decorate([
-    (0, typeorm_1.PrimaryColumn)(),
+    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
     __metadata("design:type", String)
 ], ExerciseRoutineEntity.prototype, "exerciseId", void 0);
 __decorate([
@@ -26,8 +26,8 @@ __decorate([
     __metadata("design:type", String)
 ], ExerciseRoutineEntity.prototype, "message", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)({ type: "date" }),
+    __metadata("design:type", Date)
 ], ExerciseRoutineEntity.prototype, "date", void 0);
 exports.ExerciseRoutineEntity = ExerciseRoutineEntity = __decorate([
     (0, typeorm_1.Entity)(),

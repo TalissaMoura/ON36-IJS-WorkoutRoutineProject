@@ -18,14 +18,14 @@ exports.DatabaseModule = DatabaseModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: (configService) => ({
-                    type: 'mysql',
-                    host: configService.getOrThrow('RDS_HOST'),
-                    port: configService.getOrThrow('RDS_PORT'),
-                    database: configService.getOrThrow('RDS_DATABASE'),
-                    username: configService.getOrThrow('RDS_USERNAME'),
-                    password: configService.getOrThrow('RDS_PASSWORD'),
+                    type: 'postgres',
+                    host: configService.getOrThrow('DATABASE_HOST'),
+                    port: configService.getOrThrow('DATABASE_PORT'),
+                    database: configService.getOrThrow('DATABASE_NAME'),
+                    username: configService.getOrThrow('DATABASE_USER'),
+                    password: configService.getOrThrow('DATABASE_PASSWORD'),
                     autoLoadEntities: true,
-                    synchronize: configService.getOrThrow('RDS_SYNCHRONIZE'),
+                    synchronize: configService.getOrThrow('TYPEORM_SYNCHRONIZE'),
                 }),
                 inject: [config_1.ConfigService],
             }),

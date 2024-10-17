@@ -28,9 +28,10 @@ let ExerciseRoutineService = class ExerciseRoutineService {
     async create(gender, beginner, on_period, height, weight, goal, age, city) {
         try {
             const chatResponse = await this.ChatResponseService.getRoutine(gender, beginner, on_period, height, weight, age, goal, city);
-            const currentDate = new Date().toString();
+            const currentDate = new Date();
             const exerciseRoutineResponse = new exercise_routine_model_1.ExerciseRoutine(chatResponse, currentDate);
-            await this.entityManager.save(exerciseRoutineResponse);
+            const newEntity = new exercise_routine_entity_1.ExerciseRoutineEntity(exerciseRoutineResponse);
+            await this.entityManager.save(newEntity);
         }
         catch (error) {
             console.error('Error fetching chat response data:', error.response?.data || error.message);

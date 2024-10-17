@@ -8,11 +8,11 @@ const exercise_routine_entity_1 = require("./src/exercise-routine/entities/exerc
 const configService = new config_1.ConfigService();
 exports.default = new typeorm_1.DataSource({
     type: 'postgres',
-    host: configService.getOrThrow('RDS_HOST'),
-    port: configService.getOrThrow('RDS_PORT'),
-    database: configService.getOrThrow('RDS_DATABASE'),
-    username: configService.getOrThrow('RDS_USERNAME'),
-    password: configService.getOrThrow('RDS_PASSWORD'),
+    host: configService.getOrThrow('DATABASE_HOST'),
+    port: configService.getOrThrow('DATABASE_PORT'),
+    database: configService.getOrThrow('DATABASE_NAME'),
+    username: configService.getOrThrow('DATABASE_USER'),
+    password: configService.getOrThrow('DATABASE_PASSWORD'),
     migrations: ['migrations/**'],
     entities: [exercise_routine_entity_1.ExerciseRoutineEntity],
 });

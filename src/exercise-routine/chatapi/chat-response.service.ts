@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import * as path from 'path';
-import * as fs from 'fs';
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { WeatherService } from 'src/weather/weather.service';
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { ChatOpenAI } from '@langchain/openai';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { ConfigService } from '@nestjs/config';
+import * as fs from 'fs';
+import * as path from 'path';
 
 
 @Injectable()
@@ -17,19 +17,7 @@ export class ChatResponseService {
   private readonly parser
   private readonly promptTemplate
 
-  private loadApiKey(): string {
-    try {
-      const filePath = path.join(".secrets","secrets.json")
-      const fileContents = fs.readFileSync(filePath,'utf-8');
-      const data = JSON.parse(fileContents)
-      return data.GOOGLE_GEMINI_KEY
-    } catch (error) {
-      console.error('Error fetching chat response data:', error.response?.data || error.message);
-      throw new Error('Could not load API key');
-    }
-  }
-
-  constructor(private readonly weatherService: WeatherService) {
+  constructor(private readonly weatherService: WeatherService, private readonly configService: ConfigService) {
     this.apiKey = this.loadApiKey();
     this.llm = new ChatGoogleGenerativeAI({
       model: "gemini-1.5-flash",
@@ -63,6 +51,18 @@ export class ChatResponseService {
     
         Based on this information, suggest an appropriate exercise routine that takes into account the user's profile and the weather.`]
     ]);
+  }
+
+  private loadApiKey(): string {
+    try {
+      const apiPath = path.join("..","..","..","/run/secrets/gemini_api_key")
+      const apiKey = fs.readFileSync(apiPath,"utf-8")
+      // process.env.WEATHER_API_KEY; 
+      return apiKey
+    } catch (error) {
+      console.error('Error fetching chat response data:', error.response?.data || error.message);
+      throw new Error('Could not load API key');
+    }
   }
 
   async getRoutine(

@@ -6,8 +6,8 @@ on:
 
 env:
   AWS_REGION: us-east-1  # Replace with your AWS region
-  ECS_SERVICE: nestjs-postgres-service # Replace with your ECS service name
-  ECS_CLUSTER: DevWorkoutRoutineProject  # Replace with your ECS cluster name
+  ECS_SERVICE: nestjs-app-service # Replace with your ECS service name
+  ECS_CLUSTER: DevClusterNestJsApp  # Replace with your ECS cluster name
   ECS_TASK_DEFINITION: task-definition.json  # Path to your task definition file
   CONTAINER_NAME: nestjs-app-workout-routine  # Replace with the name of the container
 

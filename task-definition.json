@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:25",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:27",
   "containerDefinitions": [
       {
           "name": "nestjs-app-workout-routine",
@@ -15,6 +15,11 @@
               }
           ],
           "essential": true,
+          "command": [
+              "npm",
+              "run",
+              "start:prod"
+          ],
           "environment": [
               {
                   "name": "DATABASE_PORT",
@@ -29,9 +34,14 @@
                   "value": "false"
               }
           ],
+          "environmentFiles": [],
           "mountPoints": [],
           "volumesFrom": [],
           "secrets": [
+              {
+                  "name": "DATABASE_HOST",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_HOST-UB7ceY"
+              },
               {
                   "name": "DATABASE_NAME",
                   "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_NAME-MjuTAj"
@@ -45,10 +55,6 @@
                   "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_USER-hxyzt3"
               },
               {
-                  "name": "DATABASE_HOST",
-                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_HOST-UB7ceY"
-              },
-              {
                   "name": "GEMINI_API_KEY",
                   "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:GEMINI_API_KEY-RhbORS"
               },
@@ -57,6 +63,7 @@
                   "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:WEATHER_API_KEY-5ZxcpS"
               }
           ],
+          "workingDirectory": "/app",
           "logConfiguration": {
               "logDriver": "awslogs",
               "options": {
@@ -66,7 +73,8 @@
                   "max-buffer-size": "25m",
                   "awslogs-region": "us-east-1",
                   "awslogs-stream-prefix": "ecs"
-              }
+              },
+              "secretOptions": []
           },
           "systemControls": []
       }
@@ -74,7 +82,7 @@
   "family": "nestjs-postgres-task",
   "executionRoleArn": "arn:aws:iam::713881806816:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 25,
+  "revision": 27,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -89,6 +97,9 @@
       },
       {
           "name": "ecs.capability.secrets.asm.environment-variables"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
       },
       {
           "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
@@ -117,7 +128,7 @@
       "cpuArchitecture": "X86_64",
       "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-10-18T03:45:41.426Z",
+  "registeredAt": "2024-10-18T05:14:38.954Z",
   "registeredBy": "arn:aws:iam::713881806816:root",
   "tags": []
 }

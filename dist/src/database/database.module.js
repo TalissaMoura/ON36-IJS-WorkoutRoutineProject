@@ -10,6 +10,9 @@ exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
+const fs = require("fs");
+const path = require("path");
+const certPath = path.join("/app", "rds-ca-cert.pem");
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;
@@ -26,6 +29,9 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                     password: configService.getOrThrow('DATABASE_PASSWORD'),
                     autoLoadEntities: true,
                     synchronize: configService.getOrThrow('TYPEORM_SYNCHRONIZE'),
+                    ssl: {
+                        ca: fs.readFileSync(certPath, "utf-8"),
+                    }
                 }),
                 inject: [config_1.ConfigService],
             }),

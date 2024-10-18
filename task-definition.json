@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:14",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:18",
   "containerDefinitions": [
       {
           "name": "nestjs-app-workout-routine",
@@ -15,21 +15,34 @@
               }
           ],
           "essential": true,
-          "environment": [],
+          "environment": [
+              {
+                  "name": "DATABASE_PORT",
+                  "value": "5432"
+              },
+              {
+                  "name": "DATABASE_HOST",
+                  "value": "postgres"
+              },
+              {
+                  "name": "NODE_ENV",
+                  "value": "production"
+              }
+          ],
           "mountPoints": [],
           "volumesFrom": [],
           "secrets": [
               {
-                  "name": "DATABASE_USER",
-                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_USER-hxyzt3"
+                  "name": "DATABASE_NAME",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_NAME-MjuTAj"
               },
               {
                   "name": "DATABASE_PASSWORD",
                   "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_PASSWORD-DZAGiM"
               },
               {
-                  "name": "DATABASE_NAME",
-                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_NAME-MjuTAj"
+                  "name": "DATABASE_USER",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_USER-hxyzt3"
               },
               {
                   "name": "GEMINI_API_KEY",
@@ -49,7 +62,8 @@
                   "max-buffer-size": "25m",
                   "awslogs-region": "us-east-1",
                   "awslogs-stream-prefix": "ecs"
-              }
+              },
+              "secretOptions": []
           },
           "systemControls": []
       }
@@ -57,7 +71,7 @@
   "family": "nestjs-postgres-task",
   "executionRoleArn": "arn:aws:iam::713881806816:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 14,
+  "revision": 18,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -100,7 +114,7 @@
       "cpuArchitecture": "X86_64",
       "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-10-18T00:38:53.454Z",
+  "registeredAt": "2024-10-18T00:50:36.323Z",
   "registeredBy": "arn:aws:iam::713881806816:root",
   "tags": []
 }

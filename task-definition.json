@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:21",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:23",
   "containerDefinitions": [
       {
           "name": "nestjs-app-workout-routine",
@@ -30,7 +30,7 @@
               },
               {
                   "name": "TYPEORM_SYNCHRONIZE",
-                  "value": "true"
+                  "value": "false"
               }
           ],
           "mountPoints": [],
@@ -75,7 +75,7 @@
   "family": "nestjs-postgres-task",
   "executionRoleArn": "arn:aws:iam::713881806816:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 21,
+  "revision": 23,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -118,7 +118,7 @@
       "cpuArchitecture": "X86_64",
       "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-10-18T01:05:54.403Z",
+  "registeredAt": "2024-10-18T01:13:30.937Z",
   "registeredBy": "arn:aws:iam::713881806816:root",
   "tags": []
 }

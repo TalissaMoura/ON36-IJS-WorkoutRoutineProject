@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as fs from "fs";
+import * as path from 'path';
+
+const certPath = path.join("/app","rds-ca-cert.pem");
 
 @Module({
   imports: [
@@ -14,6 +18,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.getOrThrow('DATABASE_PASSWORD'),
         autoLoadEntities: true,
         synchronize: configService.getOrThrow('TYPEORM_SYNCHRONIZE'),
+        ssl: {
+          ca: fs.readFileSync(certPath,"utf-8"),
+        }
       }),
       inject: [ConfigService],
     }),

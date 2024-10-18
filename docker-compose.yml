@@ -1,16 +1,4 @@
 services:
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    restart: always
-
   nestjs-app-dev:
     build:
       context: .
@@ -19,7 +7,7 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
-      DATABASE_HOST: postgres
+      DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: 5432
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
@@ -27,8 +15,8 @@ services:
       TYPEORM_SYNCHRONIZE: true
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       WEATHER_API_KEY: ${WEATHER_API_KEY}
-    depends_on:
-      - postgres
+    volumes:
+      - ./rds-ca-cert.pem:/app/rds-ca-cert.pem
 
   nestjs-app-prod:
     build:
@@ -38,7 +26,7 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      DATABASE_HOST: postgres
+      DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: 5432
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
@@ -46,8 +34,5 @@ services:
       TYPEORM_SYNCHRONIZE: false
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       WEATHER_API_KEY: ${WEATHER_API_KEY}
-    depends_on:
-      - postgres
-
-volumes:
-  pgdata:
+    volumes:
+      - ./rds-ca-cert.pem:/app/rds-ca-cert.pem

@@ -55,9 +55,7 @@ export class ChatResponseService {
 
   private loadApiKey(): string {
     try {
-      const apiPath = path.join("..","..","..","/run/secrets/gemini_api_key")
-      const apiKey = fs.readFileSync(apiPath,"utf-8")
-      // process.env.WEATHER_API_KEY; 
+      const apiKey = process.env.GEMINI_API_KEY
       return apiKey
     } catch (error) {
       console.error('Error fetching chat response data:', error.response?.data || error.message);

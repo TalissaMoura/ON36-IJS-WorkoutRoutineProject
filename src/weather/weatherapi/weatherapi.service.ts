@@ -17,8 +17,7 @@ export class WeatherApiService {
 
   private loadApiKey(): string  {
     try {
-      const apiPath = path.join("..","..","..","..","/run/secrets/weather_api_key")
-      const apiKey = fs.readFileSync(apiPath,"utf-8")
+      const apiKey = process.env.WEATHER_API_KEY
       return apiKey
     } catch (error) {
       throw new Error('Could not load API key');

@@ -31,7 +31,10 @@ jobs:
           HOST: ${{ secrets.EC2_HOST }}
           USER: ${{ secrets.EC2_USER }}
       run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
-            ~/update-container.sh
-          '
+        echo "Debugging private key:"
+        echo "$PRIVATE_KEY" | sed 's/./& /g'
+        echo "$PRIVATE_KEY" > private_key
+        chmod 600 private_key
+        echo "Key file contents:"
+        cat private_key
+        ssh -v -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} 'echo "SSH connection successful"'

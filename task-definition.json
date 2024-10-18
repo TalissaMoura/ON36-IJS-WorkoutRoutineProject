@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:6",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:713881806816:task-definition/nestjs-postgres-task:14",
   "containerDefinitions": [
       {
           "name": "nestjs-app-workout-routine",
@@ -18,6 +18,28 @@
           "environment": [],
           "mountPoints": [],
           "volumesFrom": [],
+          "secrets": [
+              {
+                  "name": "DATABASE_USER",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_USER-hxyzt3"
+              },
+              {
+                  "name": "DATABASE_PASSWORD",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_PASSWORD-DZAGiM"
+              },
+              {
+                  "name": "DATABASE_NAME",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:DATABASE_NAME-MjuTAj"
+              },
+              {
+                  "name": "GEMINI_API_KEY",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:GEMINI_API_KEY-RhbORS"
+              },
+              {
+                  "name": "WEATHER_API_KEY",
+                  "valueFrom": "arn:aws:secretsmanager:us-east-1:713881806816:secret:WEATHER_API_KEY-5ZxcpS"
+              }
+          ],
           "logConfiguration": {
               "logDriver": "awslogs",
               "options": {
@@ -27,8 +49,7 @@
                   "max-buffer-size": "25m",
                   "awslogs-region": "us-east-1",
                   "awslogs-stream-prefix": "ecs"
-              },
-              "secretOptions": []
+              }
           },
           "systemControls": []
       }
@@ -36,7 +57,7 @@
   "family": "nestjs-postgres-task",
   "executionRoleArn": "arn:aws:iam::713881806816:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 6,
+  "revision": 14,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -48,6 +69,9 @@
       },
       {
           "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+      },
+      {
+          "name": "ecs.capability.secrets.asm.environment-variables"
       },
       {
           "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
@@ -76,7 +100,7 @@
       "cpuArchitecture": "X86_64",
       "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-10-17T15:48:31.380Z",
+  "registeredAt": "2024-10-18T00:38:53.454Z",
   "registeredBy": "arn:aws:iam::713881806816:root",
   "tags": []
 }

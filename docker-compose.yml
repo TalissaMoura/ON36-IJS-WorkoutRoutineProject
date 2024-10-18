@@ -15,8 +15,6 @@ services:
       TYPEORM_SYNCHRONIZE: true
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       WEATHER_API_KEY: ${WEATHER_API_KEY}
-    volumes:
-      - ./rds-ca-cert.pem:/app/rds-ca-cert.pem
 
   nestjs-app-prod:
     build:
@@ -34,5 +32,3 @@ services:
       TYPEORM_SYNCHRONIZE: false
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       WEATHER_API_KEY: ${WEATHER_API_KEY}
-    volumes:
-      - ./rds-ca-cert.pem:/app/rds-ca-cert.pem

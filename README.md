@@ -29,7 +29,7 @@ user inputs ("city","gender","is_on_period","begineer","height","weight","goal",
     database, edit the docker-compose file. 
         > Pay attention with [RDS database](https://aws.amazon.com/rds/): if you choose this, you need to generate a rds-ca-cert.pem file. Run the command: "openssl req -x509 -newkey rsa:4096 -keyout ca-key.pem -out ca-cert.pem -days 365 -nodes -subj "/CN=localhost""
  
- 2. After all this been done, run the command `docker-compose up nestjs-app-dev`
+ 2. After all this been done, run the command `npm install` e `docker-compose up nestjs-app-dev`
 
  ## How to prepare this project for production?
  1. Setup the EC2: Go to [EC2](https://aws.amazon.com/ec2/) and if needed it create a new instance. When launch the new instance generate as ED25519 and download the .pem key pair file, also, if you are using RDS, don't forget to connect your EC2 machine with RDS.

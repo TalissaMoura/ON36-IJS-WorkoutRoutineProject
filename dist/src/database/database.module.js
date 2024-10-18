@@ -10,8 +10,8 @@ exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
 const certPath = path.join("/app", "rds-ca-cert.pem");
 let DatabaseModule = class DatabaseModule {
 };
@@ -21,7 +21,7 @@ exports.DatabaseModule = DatabaseModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: (configService) => ({
-                    type: 'postgres',
+                    type: "postgres",
                     host: configService.getOrThrow('DATABASE_HOST'),
                     port: configService.getOrThrow('DATABASE_PORT'),
                     database: configService.getOrThrow('DATABASE_NAME'),
@@ -30,7 +30,7 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                     autoLoadEntities: true,
                     synchronize: configService.getOrThrow('TYPEORM_SYNCHRONIZE'),
                     ssl: {
-                        ca: fs.readFileSync(certPath, "utf-8"),
+                        ca: fs.readFileSync(certPath),
                     }
                 }),
                 inject: [config_1.ConfigService],

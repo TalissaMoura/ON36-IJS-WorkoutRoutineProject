@@ -15,8 +15,6 @@ const axios_1 = require("@nestjs/axios");
 const rxjs_1 = require("rxjs");
 const weather_model_1 = require("../domain/weather.model");
 const config_1 = require("@nestjs/config");
-const fs = require("fs");
-const path = require("path");
 let WeatherApiService = class WeatherApiService {
     constructor(httpService, configService) {
         this.httpService = httpService;
@@ -26,8 +24,7 @@ let WeatherApiService = class WeatherApiService {
     }
     loadApiKey() {
         try {
-            const apiPath = path.join("..", "..", "..", "..", "/run/secrets/weather_api_key");
-            const apiKey = fs.readFileSync(apiPath, "utf-8");
+            const apiKey = process.env.WEATHER_API_KEY;
             return apiKey;
         }
         catch (error) {

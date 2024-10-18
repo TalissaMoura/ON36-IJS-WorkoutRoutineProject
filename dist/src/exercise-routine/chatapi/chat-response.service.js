@@ -16,8 +16,6 @@ const weather_service_1 = require("../../weather/weather.service");
 const output_parsers_1 = require("@langchain/core/output_parsers");
 const google_genai_1 = require("@langchain/google-genai");
 const config_1 = require("@nestjs/config");
-const fs = require("fs");
-const path = require("path");
 let ChatResponseService = class ChatResponseService {
     constructor(weatherService, configService) {
         this.weatherService = weatherService;
@@ -55,8 +53,7 @@ let ChatResponseService = class ChatResponseService {
     }
     loadApiKey() {
         try {
-            const apiPath = path.join("..", "..", "..", "/run/secrets/gemini_api_key");
-            const apiKey = fs.readFileSync(apiPath, "utf-8");
+            const apiKey = process.env.GEMINI_API_KEY;
             return apiKey;
         }
         catch (error) {

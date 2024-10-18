@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-COPY rds-ca-cert.pem /app/rds-ca-cert.pem
+COPY ./rds-ca-cert.pem /app/rds-ca-cert.pem
 
 RUN npm run build
 

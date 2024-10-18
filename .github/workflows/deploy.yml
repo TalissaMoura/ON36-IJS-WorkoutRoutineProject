@@ -30,9 +30,13 @@ jobs:
         PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         HOST: ${{ secrets.EC2_HOST }}
         USER: ${{ secrets.EC2_USER }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
+        run: |
         echo "$PRIVATE_KEY" > private_key
         chmod 600 private_key
-        ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
-          ~/update-container.sh
-        '
+        ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} \
+          DOCKER_USERNAME=${DOCKER_USERNAME} \
+          DOCKER_PASSWORD=${DOCKER_PASSWORD} \
+          '~/update-container.sh'
